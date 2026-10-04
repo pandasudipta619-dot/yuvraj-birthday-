@@ -1,0 +1,1609 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>YUVRAJ.exe — Birthday Edition</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #02060d;
+            color: #00ff9d;
+            font-family: "Courier New", monospace;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    rgba(0, 120, 255, 0.035) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(0, 120, 255, 0.035) 1px,
+                    transparent 1px
+                );
+
+            background-size: 35px 35px;
+            z-index: -1;
+        }
+
+
+        /* ================================
+           GENERAL
+        ================================= */
+
+        .screen {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 25px;
+        }
+
+
+        .terminal {
+            width: 900px;
+            max-width: 100%;
+
+            border: 1px solid #008cff;
+
+            padding: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(0, 80, 160, 0.10),
+                    rgba(0, 255, 157, 0.03)
+                );
+
+            box-shadow:
+                0 0 20px rgba(0, 140, 255, 0.15),
+                inset 0 0 30px rgba(0, 140, 255, 0.03);
+        }
+
+
+        button {
+            background: transparent;
+
+            color: #00ff9d;
+
+            border: 1px solid #00ff9d;
+
+            padding: 12px 22px;
+
+            font-family: inherit;
+
+            cursor: pointer;
+
+            margin-top: 15px;
+
+            transition: 0.25s;
+        }
+
+
+        button:hover {
+            background: #00ff9d;
+
+            color: #02060d;
+
+            box-shadow:
+                0 0 15px rgba(0, 255, 157, 0.7);
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+
+        .green {
+            color: #00ff9d;
+        }
+
+
+        .blue {
+            color: #008cff;
+        }
+
+
+        .red {
+            color: #ff4d6d;
+        }
+
+
+        .yellow {
+            color: #ffe66d;
+        }
+
+
+        /* ================================
+           START SCREEN
+        ================================= */
+
+        #startScreen {
+            text-align: center;
+        }
+
+
+        .big-title {
+            font-size: clamp(28px, 5vw, 58px);
+
+            margin-bottom: 20px;
+
+            color: #008cff;
+
+            text-shadow:
+                0 0 10px rgba(0, 140, 255, 0.7),
+                0 0 25px rgba(0, 140, 255, 0.3);
+        }
+
+
+        #typingIntro {
+            min-height: 25px;
+        }
+
+
+        .progress-container {
+            width: 80%;
+            max-width: 500px;
+
+            height: 18px;
+
+            border: 1px solid #008cff;
+
+            margin: 25px auto;
+        }
+
+
+        .progress-bar {
+            width: 0%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #008cff,
+                    #00ff9d
+                );
+
+            transition: width 0.2s;
+
+            box-shadow:
+                0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+
+        #loadingText {
+            color: #00ff9d;
+        }
+
+
+        /* ================================
+           MAIN WEBSITE
+        ================================= */
+
+        #mainScreen {
+            display: none;
+
+            min-height: 100vh;
+
+            padding: 30px 15px;
+        }
+
+
+        .content {
+            max-width: 900px;
+
+            margin: auto;
+        }
+
+
+        .section {
+            margin: 70px 0;
+
+            opacity: 0;
+
+            transform: translateY(25px);
+
+            transition:
+                opacity 0.8s,
+                transform 0.8s;
+        }
+
+
+        .section.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+
+        .section-title {
+            font-size: 23px;
+
+            color: #008cff;
+
+            margin-bottom: 20px;
+
+            border-bottom:
+                1px dashed #008cff;
+
+            padding-bottom: 10px;
+
+            text-shadow:
+                0 0 8px rgba(0, 140, 255, 0.4);
+        }
+
+
+        /* ================================
+           WELCOME
+        ================================= */
+
+        #welcomeTitle {
+            color: #008cff;
+
+            font-size:
+                clamp(25px, 5vw, 45px);
+
+            text-shadow:
+                0 0 12px rgba(0, 140, 255, 0.6);
+        }
+
+
+        /* ================================
+           ABOUT HUMAN
+        ================================= */
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+        }
+
+
+        .info-card {
+            border:
+                1px solid #075f86;
+
+            padding: 18px;
+
+            background:
+                rgba(0, 80, 150, 0.08);
+
+            transition: 0.25s;
+        }
+
+
+        .info-card:hover {
+            border-color: #00ff9d;
+
+            box-shadow:
+                0 0 12px rgba(0, 255, 157, 0.15);
+        }
+
+
+        .label {
+            color: #008cff;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+        }
+
+
+        /* ================================
+           ACHIEVEMENTS
+        ================================= */
+
+        .achievement {
+            border-left:
+                3px solid #00ff9d;
+
+            padding:
+                12px 15px;
+
+            margin: 12px 0;
+
+            background:
+                rgba(0, 255, 157, 0.04);
+
+            transition: 0.2s;
+        }
+
+
+        .achievement:hover {
+            transform:
+                translateX(5px);
+
+            background:
+                rgba(0, 255, 157, 0.08);
+        }
+
+
+        /* ================================
+           ERRORS
+        ================================= */
+
+        .error {
+            border:
+                1px solid #ff4d6d;
+
+            color: #ff4d6d;
+
+            padding: 15px;
+
+            margin: 12px 0;
+
+            background:
+                rgba(255, 0, 60, 0.04);
+        }
+
+
+        /* ================================
+           QUIZ
+        ================================= */
+
+        .quiz-board {
+            border:
+                1px solid #008cff;
+
+            padding: 25px;
+
+            background:
+                rgba(0, 80, 180, 0.07);
+
+            box-shadow:
+                0 0 20px rgba(0, 140, 255, 0.06);
+        }
+
+
+        .quiz-header {
+            color: #00ff9d;
+
+            margin-bottom: 20px;
+
+            border-bottom:
+                1px solid #075f86;
+
+            padding-bottom: 10px;
+        }
+
+
+        #question {
+            font-size: 19px;
+
+            margin-bottom: 20px;
+
+            color: #ffffff;
+        }
+
+
+        .option {
+            display: block;
+
+            width: 100%;
+
+            text-align: left;
+
+            margin: 10px 0;
+
+            border-color:
+                #008cff;
+
+            color:
+                #008cff;
+        }
+
+
+        .option:hover {
+            background:
+                #008cff;
+
+            color:
+                #02060d;
+
+            box-shadow:
+                0 0 15px
+                rgba(0, 140, 255, 0.5);
+        }
+
+
+        #quizFeedback {
+            min-height: 25px;
+
+            margin-top: 15px;
+        }
+
+
+        #quizScore {
+            font-size: 25px;
+
+            color: #00ff9d;
+
+            margin-top: 20px;
+        }
+
+
+        /* ================================
+           SWEET MESSAGE
+        ================================= */
+
+        .message-box {
+            border:
+                1px solid #00ff9d;
+
+            padding: 30px;
+
+            color: #c8ffe9;
+
+            background:
+                rgba(0, 255, 157, 0.035);
+
+            line-height: 1.9;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 17px;
+        }
+
+
+        .message-box .signature {
+            color: #00ff9d;
+
+            font-family:
+                "Courier New",
+                monospace;
+
+            margin-top: 25px;
+        }
+
+
+        /* ================================
+           SHUTDOWN
+        ================================= */
+
+        #shutdownScreen {
+            display: none;
+
+            min-height: 100vh;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            padding: 20px;
+        }
+
+
+        .shutdown-box {
+            border:
+                1px solid #ff4d6d;
+
+            padding: 40px;
+
+            max-width: 600px;
+
+            color: #ff4d6d;
+
+            background:
+                rgba(255, 0, 60, 0.04);
+        }
+
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 600px) {
+
+            .terminal {
+                padding: 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                margin: 50px 0;
+            }
+
+            .big-title {
+                font-size: 30px;
+            }
+
+            .message-box {
+                padding: 20px;
+
+                font-size: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     START SCREEN
+========================================= -->
+
+<div id="startScreen" class="screen">
+
+    <div class="terminal">
+
+        <div class="big-title">
+            YUVRAJ.exe
+        </div>
+
+
+        <p id="typingIntro"></p>
+
+
+        <div class="progress-container">
+
+            <div
+                class="progress-bar"
+                id="progressBar">
+            </div>
+
+        </div>
+
+
+        <p id="loadingText">
+            Initializing...
+        </p>
+
+
+        <button
+            id="enterButton"
+            class="hidden"
+            onclick="startWebsite()">
+
+            [ ENTER BIRTHDAY MODE ]
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     MAIN WEBSITE
+========================================= -->
+
+<div id="mainScreen">
+
+    <div class="content">
+
+
+        <!-- WELCOME -->
+
+        <div class="section show">
+
+            <p class="green">
+                > SYSTEM ONLINE
+            </p>
+
+
+            <h1 id="welcomeTitle"></h1>
+
+
+            <p>
+                Birthday protocol successfully activated.
+            </p>
+
+        </div>
+
+
+
+        <!-- ABOUT HUMAN -->
+
+        <div class="section">
+
+            <div class="section-title">
+                [01] ABOUT HUMAN
+            </div>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        NAME
+                    </div>
+
+                    Yuvraj
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        OCCUPATION
+                    </div>
+
+                    Engineering Survivor
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        FAVOURITE ACTIVITY
+                    </div>
+
+                    Reading Horror Books
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        APPRECIATES
+                    </div>
+
+                    Beauty
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        KNOWN BUG
+                    </div>
+
+                    SleepSchedule.exe has stopped working
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        SPECIAL SKILL
+                    </div>
+
+                    Cooking
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        SECRET ORIGIN
+                    </div>
+
+                    Australian Tribe Archives 🇦🇺
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="label">
+                        DEVI JI DATABASE
+                    </div>
+
+                    Blue Eyes. Obviously.
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ACHIEVEMENTS -->
+
+        <div class="section">
+
+            <div class="section-title">
+                [02] ACHIEVEMENTS UNLOCKED
+            </div>
+
+
+            <div class="achievement">
+                ✓ Survived another year
+            </div>
+
+
+            <div class="achievement">
+                ✓ Professional Engineer
+            </div>
+
+
+            <div class="achievement">
+                ✓ Professional Listener
+            </div>
+
+
+            <div class="achievement">
+                ✓ Survived Sudipta
+            </div>
+
+
+            <div class="achievement">
+                ✓ Somehow still has a functioning brain
+            </div>
+
+        </div>
+
+
+
+        <!-- ERRORS -->
+
+        <div class="section">
+
+            <div class="section-title">
+                [03] SYSTEM ERRORS
+            </div>
+
+
+            <div id="errors"></div>
+
+        </div>
+
+
+
+        <!-- QUIZ -->
+
+        <div class="section">
+
+            <div class="section-title">
+                [04] HUMAN VERIFICATION QUIZ
+            </div>
+
+
+            <div class="quiz-board">
+
+                <div class="quiz-header">
+                    > ACCESSING YUVRAJ DATABASE...
+                </div>
+
+
+                <p id="question"></p>
+
+
+                <div id="options"></div>
+
+
+                <p id="quizFeedback"></p>
+
+
+                <p id="quizScore"></p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SWEET MESSAGE -->
+
+        <div class="section">
+
+            <div class="section-title">
+                [05] MESSAGE.exe
+            </div>
+
+
+            <div class="message-box">
+
+                <p>
+                    I hope this year is kind to you —
+                    not merely in the obvious ways,
+                    but in those quiet, almost invisible
+                    moments that make a life feel worth living.
+                </p>
+
+
+                <p>
+                    I hope it brings you joy,
+                    opportunity, and enough unexpected
+                    good things to make you stop for a moment
+                    and think, “Maybe life really is alright.”
+                </p>
+
+
+                <p>
+                    And somewhere between all the plans,
+                    ambitions, exams, work, mistakes,
+                    ridiculous conversations and ordinary days,
+                    I hope you remember that you are special to me.
+                </p>
+
+
+                <p>
+                    Nothing you say or do has to be carefully
+                    measured around me. You could annoy me,
+                    disappear into some strange thought,
+                    say something completely ridiculous,
+                    or simply have one of those days when
+                    you don't feel like talking.
+                    You would still be you,
+                    and I would still be here as your friend.
+                </p>
+
+
+                <p>
+                    I hope this year makes you talk more,
+                    share more of yourself,
+                    and perhaps let people know a little more
+                    about the person hiding behind all that
+                    engineering-brain nonsense.
+                </p>
+
+
+                <p>
+                    I hope the coming years are gentle with you.
+                    May your future career bring you opportunities
+                    you never expected, and may the things you
+                    work for eventually meet you halfway.
+                </p>
+
+
+                <p>
+                    Eighteen years is a strange amount of time
+                    to hold inside one life.
+                    So many versions of yourself have already
+                    existed — the child you were, the person you
+                    became, and the person you are still becoming.
+                    I hope every one of those versions can look
+                    forward without regret, and that the person
+                    you become keeps some of the goodness
+                    of the person you are today.
+                </p>
+
+
+                <p>
+                    I hope you remain happy.
+                    And when happiness isn't there,
+                    I hope you have enough peace to wait for it.
+                </p>
+
+
+                <p>
+                    Here's to another year of becoming,
+                    discovering, failing occasionally,
+                    succeeding unexpectedly,
+                    and collecting stories that one day
+                    you'll look back on and laugh about.
+                </p>
+
+
+                <p>
+                    And yes, despite everything,
+                    I hope you continue to be the same
+                    good friend you've been to me.
+                </p>
+
+
+                <p class="signature">
+
+                    From the top,<br><br>
+
+                    Devi ji<br><br>
+
+                    Main aapko aashirwad deti hoon.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SHUTDOWN -->
+
+        <div class="section">
+
+            <div class="section-title">
+                [06] SYSTEM EXIT
+            </div>
+
+
+            <p>
+                Birthday protocol completed.
+            </p>
+
+
+            <button onclick="shutdown()">
+
+                [ SHUT DOWN ]
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     SHUTDOWN SCREEN
+========================================= -->
+
+<div id="shutdownScreen">
+
+    <div class="shutdown-box">
+
+        <h2>
+            SYSTEM ERROR
+        </h2>
+
+
+        <p>
+            Are you sure you want to exit Birthday Mode?
+        </p>
+
+
+        <button onclick="cancelShutdown()">
+            NO
+        </button>
+
+
+        <button onclick="shutdownAgain()">
+            YES
+        </button>
+
+
+        <p id="shutdownMessage"></p>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   TYPING EFFECT
+========================================= */
+
+function typeText(
+    element,
+    text,
+    speed = 40,
+    callback
+) {
+
+    let i = 0;
+
+    element.innerHTML = "";
+
+
+    function type() {
+
+        if (i < text.length) {
+
+            element.innerHTML +=
+                text.charAt(i);
+
+            i++;
+
+            setTimeout(type, speed);
+
+        }
+
+        else {
+
+            if (callback) {
+                callback();
+            }
+
+        }
+
+    }
+
+
+    type();
+
+}
+
+
+
+/* =========================================
+   START SCREEN
+========================================= */
+
+const intro =
+    document.getElementById(
+        "typingIntro"
+    );
+
+
+typeText(
+    intro,
+    "> Booting Birthday Protocol...",
+    45
+);
+
+
+let progress = 0;
+
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+
+const loadingText =
+    document.getElementById(
+        "loadingText"
+    );
+
+
+const loadingMessages = [
+
+    "Loading human data...",
+
+    "Checking personality files...",
+
+    "Scanning engineering damage...",
+
+    "Locating sleep schedule...",
+
+    "Searching Australian ancestry database...",
+
+    "Checking Devi Ji's blue-eye configuration...",
+
+    "Birthday mode ready."
+
+];
+
+
+const loadingInterval =
+    setInterval(() => {
+
+        progress += 2;
+
+
+        progressBar.style.width =
+            progress + "%";
+
+
+        if (progress % 20 === 0) {
+
+            let index =
+                progress / 20 - 1;
+
+
+            if (loadingMessages[index]) {
+
+                loadingText.textContent =
+                    loadingMessages[index];
+
+            }
+
+        }
+
+
+        if (progress >= 100) {
+
+            clearInterval(
+                loadingInterval
+            );
+
+
+            loadingText.textContent =
+                "SYSTEM READY.";
+
+
+            document
+                .getElementById(
+                    "enterButton"
+                )
+                .classList
+                .remove("hidden");
+
+        }
+
+    }, 60);
+
+
+
+/* =========================================
+   START WEBSITE
+========================================= */
+
+function startWebsite() {
+
+    document
+        .getElementById(
+            "startScreen"
+        )
+        .style.display = "none";
+
+
+    document
+        .getElementById(
+            "mainScreen"
+        )
+        .style.display = "block";
+
+
+    typeText(
+
+        document.getElementById(
+            "welcomeTitle"
+        ),
+
+        "HAPPY BIRTHDAY, YUVRAJ 🎂",
+
+        70
+
+    );
+
+
+    revealSections();
+
+
+    showErrors();
+
+
+    loadQuestion();
+
+}
+
+
+
+/* =========================================
+   SECTION ANIMATIONS
+========================================= */
+
+function revealSections() {
+
+    const sections =
+        document.querySelectorAll(
+            "#mainScreen .section"
+        );
+
+
+    sections.forEach(
+        (section, index) => {
+
+            if (index === 0) return;
+
+
+            setTimeout(() => {
+
+                section.classList.add(
+                    "show"
+                );
+
+            }, index * 350);
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
+   ERROR MESSAGES
+========================================= */
+
+const errors = [
+
+    "ERROR 404: Common Sense Not Found",
+
+    "WARNING: Sleep Schedule Unstable",
+
+    "CRITICAL ERROR: Engineering Brain Overloaded",
+
+    "WARNING: Birthday Cake Levels Excessively High",
+
+    "UNKNOWN ERROR: Australian Tribe Connection Detected"
+
+];
+
+
+function showErrors() {
+
+    const container =
+        document.getElementById(
+            "errors"
+        );
+
+
+    errors.forEach(
+        (error, index) => {
+
+            setTimeout(() => {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "error";
+
+
+                div.textContent =
+                    "> " + error;
+
+
+                container.appendChild(
+                    div
+                );
+
+            }, index * 700);
+
+        }
+    );
+
+}
+
+
+
+/* =========================================
+   QUIZ
+========================================= */
+
+const questions = [
+
+
+    {
+        question:
+            "What is the most likely cause of SleepSchedule.exe crashing?",
+
+        options: [
+            "Engineering",
+            "Too much sleep",
+            "Normal human behaviour",
+            "Unknown system error"
+        ],
+
+        answer: 0
+    },
+
+
+    {
+        question:
+            "Which activity is suspiciously associated with this human?",
+
+        options: [
+            "Reading horror books",
+            "Solving world hunger",
+            "Gardening at 3 AM",
+            "Professional sleeping"
+        ],
+
+        answer: 0
+    },
+
+
+    {
+        question:
+            "What is Yuvraj's favourite place?",
+
+        options: [
+            "Japan 🇯🇵",
+            "Switzerland 🇨🇭",
+            "New York 🇺🇸",
+            "Iceland 🇮🇸"
+        ],
+
+        answer: 0
+    },
+
+
+    {
+        question:
+            "According to highly classified records, who has the blue eyes?",
+
+        options: [
+            "Yuvraj",
+            "Devi ji",
+            "The Australian tribe",
+            "Nobody. Blue eyes are a myth."
+        ],
+
+        answer: 1
+    },
+
+
+    {
+        question:
+            "Which statement is part of the classified Devi Ji archives?",
+
+        options: [
+            "She has blue eyes and comes from an Australian tribe",
+            "She invented engineering",
+            "She has never made a questionable decision",
+            "She is secretly 700 years old"
+        ],
+
+        answer: 0
+    }
+
+];
+
+
+let currentQuestion = 0;
+
+let score = 0;
+
+let quizLocked = false;
+
+
+
+function loadQuestion() {
+
+    if (
+        currentQuestion >=
+        questions.length
+    ) {
+
+        finishQuiz();
+
+        return;
+    }
+
+
+    quizLocked = false;
+
+
+    const q =
+        questions[currentQuestion];
+
+
+    document.getElementById(
+        "question"
+    ).textContent =
+
+        `Question ${
+            currentQuestion + 1
+        }/${questions.length}: ${
+            q.question
+        }`;
+
+
+    const optionsContainer =
+        document.getElementById(
+            "options"
+        );
+
+
+    optionsContainer.innerHTML = "";
+
+
+    q.options.forEach(
+        (option, index) => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "option";
+
+
+            button.textContent =
+                option;
+
+
+            button.onclick = () =>
+                checkAnswer(index);
+
+
+            optionsContainer.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "quizFeedback"
+    ).textContent = "";
+
+}
+
+
+
+function checkAnswer(selected) {
+
+    if (quizLocked) return;
+
+
+    quizLocked = true;
+
+
+    const correct =
+        questions[currentQuestion]
+            .answer;
+
+
+    const feedback =
+        document.getElementById(
+            "quizFeedback"
+        );
+
+
+    if (selected === correct) {
+
+        score++;
+
+
+        feedback.textContent =
+            "✓ CORRECT — Human knowledge confirmed.";
+
+
+        feedback.className =
+            "green";
+
+    }
+
+    else {
+
+        feedback.textContent =
+            "✗ INCORRECT — Suspicious behaviour detected.";
+
+
+        feedback.className =
+            "red";
+
+    }
+
+
+    setTimeout(() => {
+
+        currentQuestion++;
+
+        loadQuestion();
+
+    }, 1000);
+
+}
+
+
+
+function finishQuiz() {
+
+    document.getElementById(
+        "question"
+    ).textContent =
+        "QUIZ COMPLETE.";
+
+
+    document.getElementById(
+        "options"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "quizFeedback"
+    ).textContent =
+        "Human verification finished.";
+
+
+    const scoreElement =
+        document.getElementById(
+            "quizScore"
+        );
+
+
+    scoreElement.textContent =
+        `FINAL SCORE: ${score}/${questions.length}`;
+
+}
+
+
+
+/* =========================================
+   SHUTDOWN
+========================================= */
+
+function shutdown() {
+
+    document.getElementById(
+        "mainScreen"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "shutdownScreen"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "shutdownMessage"
+    ).textContent = "";
+
+}
+
+
+
+function cancelShutdown() {
+
+    document.getElementById(
+        "shutdownScreen"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "mainScreen"
+    ).style.display =
+        "block";
+
+}
+
+
+
+function shutdownAgain() {
+
+    document.getElementById(
+        "shutdownMessage"
+    ).textContent =
+
+        "Nice try 😭 Birthday mode cannot be terminated.";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
